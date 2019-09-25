@@ -1,0 +1,29 @@
+trigger:
+  tags:
+    include:
+      - v*
+  branches:
+    include:
+      - master
+      - release/*
+      - feature/*
+      - bug/*
+  paths:
+    exclude:
+      - README.md
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  TEST_AND_COVERAGE_DOCKER_FILE_PATH: '$(system.defaultWorkingDirectory)/docker/Dockerfile.testAndCoverage'
+
+steps:
+- task: Docker@2
+  displayName: Test and Coverage
+  inputs:
+    command: 'build'
+    Dockerfile: $(TEST_AND_COVERAGE_DOCKER_FILE_PATH)
+    buildContext: '$(system.defaultWorkingDirectory)'
+    arguments: '--build-arg CI_SERVICE=$(CI_SERVICE) --build-arg COVERALLS_TOKEN=$(COVERALLS_TOKEN)'
+
