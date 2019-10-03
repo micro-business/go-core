@@ -33,7 +33,15 @@ func IsArgumentNilError(err error) bool {
 }
 
 // NewArgumentNilError creates a new ArgumentNilError error
-func NewArgumentNilError(argumentName, message string, err error) error {
+func NewArgumentNilError(argumentName, message string) error {
+	return ArgumentNilError{
+		ArgumentName: argumentName,
+		Message:      message,
+	}
+}
+
+// NewArgumentNilErrorWithError creates a new ArgumentNilError error
+func NewArgumentNilErrorWithError(argumentName, message string, err error) error {
 	return ArgumentNilError{
 		ArgumentName: argumentName,
 		Message:      message,
@@ -69,7 +77,15 @@ func IsArgumentError(err error) bool {
 }
 
 // NewArgumentError creates a new ArgumentError error
-func NewArgumentError(argumentName, message string, err error) error {
+func NewArgumentError(argumentName, message string) error {
+	return ArgumentError{
+		ArgumentName: argumentName,
+		Message:      message,
+	}
+}
+
+// NewArgumentError creates a new ArgumentError error
+func NewArgumentErrorWithError(argumentName, message string, err error) error {
 	return ArgumentError{
 		ArgumentName: argumentName,
 		Message:      message,

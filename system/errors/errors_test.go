@@ -23,7 +23,7 @@ var _ = Describe("SystemErrors Tests", func() {
 
 				BeforeEach(func() {
 					argumentName = cuid.New()
-					err = systemErrors.NewArgumentNilError(argumentName, cuid.New(), nil)
+					err = systemErrors.NewArgumentNilError(argumentName, cuid.New())
 				})
 
 				It("should set the internal ArgumentName property", func() {
@@ -49,7 +49,7 @@ var _ = Describe("SystemErrors Tests", func() {
 
 				BeforeEach(func() {
 					message = cuid.New()
-					err = systemErrors.NewArgumentNilError(cuid.New(), message, nil)
+					err = systemErrors.NewArgumentNilError(cuid.New(), message)
 				})
 
 				It("should set the internal Message property", func() {
@@ -74,7 +74,7 @@ var _ = Describe("SystemErrors Tests", func() {
 					)
 
 					BeforeEach(func() {
-						err = systemErrors.NewArgumentNilError(cuid.New(), cuid.New(), nil)
+						err = systemErrors.NewArgumentNilError(cuid.New(), cuid.New())
 					})
 
 					It("should unwrap the internal error adn return nil", func() {
@@ -94,7 +94,7 @@ var _ = Describe("SystemErrors Tests", func() {
 
 				BeforeEach(func() {
 					expectedErr = errors.New(cuid.New())
-					err = systemErrors.NewArgumentNilError(cuid.New(), cuid.New(), expectedErr)
+					err = systemErrors.NewArgumentNilErrorWithError(cuid.New(), cuid.New(), expectedErr)
 				})
 
 				It("should unwrap the internal error", func() {
@@ -114,7 +114,7 @@ var _ = Describe("SystemErrors Tests", func() {
 				)
 
 				BeforeEach(func() {
-					err = systemErrors.NewArgumentNilError(cuid.New(), cuid.New(), nil)
+					err = systemErrors.NewArgumentNilError(cuid.New(), cuid.New())
 				})
 
 				It("should unwrap the internal error adn return nil", func() {
@@ -130,8 +130,7 @@ var _ = Describe("SystemErrors Tests", func() {
 		Context("err is instantiated", func() {
 			When("IsArgumentNilError function is called with ArgumentNilError", func() {
 				It("should return true", func() {
-					err := systemErrors.NewArgumentNilError(cuid.New(), cuid.New(), nil)
-
+					err := systemErrors.NewArgumentNilError(cuid.New(), cuid.New())
 					Ω(systemErrors.IsArgumentNilError(err)).Should(BeTrue())
 				})
 			})
@@ -155,7 +154,7 @@ var _ = Describe("SystemErrors Tests", func() {
 
 				BeforeEach(func() {
 					argumentName = cuid.New()
-					err = systemErrors.NewArgumentError(argumentName, cuid.New(), nil)
+					err = systemErrors.NewArgumentError(argumentName, cuid.New())
 				})
 
 				It("should set the internal ArgumentName property", func() {
@@ -181,7 +180,7 @@ var _ = Describe("SystemErrors Tests", func() {
 
 				BeforeEach(func() {
 					message = cuid.New()
-					err = systemErrors.NewArgumentError(cuid.New(), message, nil)
+					err = systemErrors.NewArgumentError(cuid.New(), message)
 				})
 
 				It("should set the internal Message property", func() {
@@ -206,7 +205,7 @@ var _ = Describe("SystemErrors Tests", func() {
 					)
 
 					BeforeEach(func() {
-						err = systemErrors.NewArgumentError(cuid.New(), cuid.New(), nil)
+						err = systemErrors.NewArgumentError(cuid.New(), cuid.New())
 					})
 
 					It("should unwrap the internal error adn return nil", func() {
@@ -226,7 +225,7 @@ var _ = Describe("SystemErrors Tests", func() {
 
 				BeforeEach(func() {
 					expectedErr = errors.New(cuid.New())
-					err = systemErrors.NewArgumentError(cuid.New(), cuid.New(), expectedErr)
+					err = systemErrors.NewArgumentErrorWithError(cuid.New(), cuid.New(), expectedErr)
 				})
 
 				It("should unwrap the internal error", func() {
@@ -246,7 +245,7 @@ var _ = Describe("SystemErrors Tests", func() {
 				)
 
 				BeforeEach(func() {
-					err = systemErrors.NewArgumentError(cuid.New(), cuid.New(), nil)
+					err = systemErrors.NewArgumentError(cuid.New(), cuid.New())
 				})
 
 				It("should unwrap the internal error adn return nil", func() {
@@ -262,7 +261,7 @@ var _ = Describe("SystemErrors Tests", func() {
 		Context("err is instantiated", func() {
 			When("IsArgumentError function is called with ArgumentError", func() {
 				It("should return true", func() {
-					err := systemErrors.NewArgumentError(cuid.New(), cuid.New(), nil)
+					err := systemErrors.NewArgumentError(cuid.New(), cuid.New())
 
 					Ω(systemErrors.IsArgumentError(err)).Should(BeTrue())
 				})
