@@ -1,13 +1,14 @@
 // Package util implements different utilities
 package util
 
+import "runtime"
+
 // Set by linker
 var (
-	version       = "undefined"
-	platform      = "undefined"
-	commit        = "undefined"
-	date          = "undefined"
-	golangVersion = "undefined"
+	version  = "undefined"
+	platform = "undefined"
+	commit   = "undefined"
+	date     = "undefined"
 )
 
 // Version defines the structure containns all information to be printed when 'version' command is requested.
@@ -27,6 +28,6 @@ func GetVersion() Version {
 		Platform:      platform,
 		Commit:        commit,
 		Date:          date,
-		GolangVersion: golangVersion,
+		GolangVersion: runtime.Version(),
 	}
 }
