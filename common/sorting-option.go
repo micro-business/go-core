@@ -4,7 +4,7 @@ package common
 type SortingDirection int
 
 const (
-	Acsending SortingDirection = iota
+	Ascending SortingDirection = iota
 	Descending
 )
 
