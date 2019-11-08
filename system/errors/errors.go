@@ -19,7 +19,7 @@ func (e ArgumentNilError) Error() string {
 		return fmt.Sprintf("Argument \"%s\" is nil. Error message: %s.", e.ArgumentName, e.Message)
 	}
 
-	return fmt.Sprintf("Argument \"%s\" is nil. Error message: %s. Error: %s", e.ArgumentName, e.Message, e.Err.Error())
+	return fmt.Sprintf("Argument \"%s\" is nil. Error message: %s. Error: %v", e.ArgumentName, e.Message, e.Err)
 }
 
 func (e ArgumentNilError) Unwrap() error {
@@ -63,7 +63,7 @@ func (e ArgumentError) Error() string {
 		return fmt.Sprintf("Argument \"%s\" is invalid. Error message: %s.", e.ArgumentName, e.Message)
 	}
 
-	return fmt.Sprintf("Argument \"%s\" is invalid. Error message: %s. Error: %s", e.ArgumentName, e.Message, e.Err.Error())
+	return fmt.Sprintf("Argument \"%s\" is invalid. Error message: %s. Error: %v", e.ArgumentName, e.Message, e.Err)
 }
 
 func (e ArgumentError) Unwrap() error {
