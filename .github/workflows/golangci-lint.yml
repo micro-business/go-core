@@ -5,6 +5,9 @@ on:
       - v*
     branches:
       - master
+      - release/*
+      - feature/*
+      - hotfix/*
   pull_request:
 jobs:
   golangci:
