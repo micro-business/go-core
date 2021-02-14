@@ -19,13 +19,14 @@ const bearerTokenPrefix = "Bearer "
 // ParseAndVerifyToken parse the given token and verifies the signature
 // ctx: Mandatory - the context
 // jwksURL: Mandatory - the URL to where the public keys are stored
+// verifyToken: Mandatory - indicates whether the provided token needs to be signature verified
 // Returns either the parsed and verified token or error if something goes wrong
-func ParseAndVerifyToken(ctx context.Context, jwksURL string) (jwt.Token, error) {
+func ParseAndVerifyToken(ctx context.Context, jwksURL string, verifyToken bool) (jwt.Token, error) {
 	if ctx == nil {
 		return nil, errors.NewArgumentNilError("ctx", "ctx is required")
 	}
 
-	if len(jwksURL) == 0 {
+	if verifyToken && len(jwksURL) == 0 {
 		return nil, errors.NewArgumentNilError("jwksURL", "jwksURL is required")
 	}
 
@@ -49,14 +50,23 @@ func ParseAndVerifyToken(ctx context.Context, jwksURL string) (jwt.Token, error)
 		return nil, status.Errorf(codes.Unauthenticated, "authorization token is not provided")
 	}
 
-	keySet, err := jwk.Fetch(ctx, jwksURL)
-	if err != nil {
-		return nil, status.Errorf(codes.Unauthenticated, "Fail to fetch the key set")
+	if verifyToken {
+		keySet, err := jwk.Fetch(ctx, jwksURL)
+		if err != nil {
+			return nil, status.Errorf(codes.Unauthenticated, "Fail to fetch the key set")
+		}
+
+		token, err := jwt.Parse([]byte(bearerToken), jwt.WithKeySet(keySet))
+		if err != nil {
+			return nil, status.Errorf(codes.Unauthenticated, "Failed to parse and validate the received token")
+		}
+
+		return token, nil
 	}
 
-	token, err := jwt.Parse([]byte(bearerToken), jwt.WithKeySet(keySet))
+	token, err := jwt.Parse([]byte(bearerToken))
 	if err != nil {
-		return nil, status.Errorf(codes.Unauthenticated, "Failed to parse and validate the received token")
+		return nil, status.Errorf(codes.Unauthenticated, "Failed to parse the received token")
 	}
 
 	return token, nil
