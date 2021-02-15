@@ -1,20 +1,17 @@
-// Package util implements different utilities
-package util
+// Package grpc ...
+package grpc
 
 import (
 	"context"
-	"strings"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
-	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/lestrrat-go/jwx/jwt"
+	gocorejwt "github.com/micro-business/go-core/jwt"
 	"github.com/micro-business/go-core/system/errors"
 )
-
-const bearerTokenPrefix = "Bearer "
 
 // ParseAndVerifyToken parse the given token and verifies the signature
 // ctx: Mandatory - the context
@@ -40,34 +37,5 @@ func ParseAndVerifyToken(ctx context.Context, jwksURL string, verifyToken bool) 
 		return nil, status.Errorf(codes.Unauthenticated, "authorization token is not provided")
 	}
 
-	authorizationToken := values[0]
-	if !strings.HasPrefix(authorizationToken, bearerTokenPrefix) {
-		return nil, status.Errorf(codes.Unauthenticated, "authorization token format is not Bearer")
-	}
-
-	bearerToken := authorizationToken[len(bearerTokenPrefix):]
-	if len(bearerToken) == 0 {
-		return nil, status.Errorf(codes.Unauthenticated, "authorization token is not provided")
-	}
-
-	if verifyToken {
-		keySet, err := jwk.Fetch(ctx, jwksURL)
-		if err != nil {
-			return nil, status.Errorf(codes.Unauthenticated, "Fail to fetch the key set")
-		}
-
-		token, err := jwt.Parse([]byte(bearerToken), jwt.WithKeySet(keySet))
-		if err != nil {
-			return nil, status.Errorf(codes.Unauthenticated, "Failed to parse and validate the received token")
-		}
-
-		return token, nil
-	}
-
-	token, err := jwt.Parse([]byte(bearerToken))
-	if err != nil {
-		return nil, status.Errorf(codes.Unauthenticated, "Failed to parse the received token")
-	}
-
-	return token, nil
+	return gocorejwt.ParseAndVerifyToken(ctx, values[0], jwksURL, verifyToken)
 }
