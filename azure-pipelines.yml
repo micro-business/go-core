@@ -13,19 +13,19 @@ trigger:
       - README.md
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: "ubuntu-20.04"
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: micro-business/templates
+      endpoint: micro-business
+
+name: $(GitVersion.SemVer)
 
 steps:
-  - task: gitversion/setup@0
-    displayName: "Setting up GitVersion"
-    inputs:
-      versionSpec: "5.x"
-
-  - task: gitversion/execute@0
-    displayName: "Figure out GitVersion"
-    inputs:
-      configFilePath: "./GitVersion.yml"
-
+  - template: build/steps/gitversion.yml@templates
   - task: Docker@2
     displayName: Test and Coverage
     inputs:
