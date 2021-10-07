@@ -18,8 +18,8 @@ clean: ## Clean the working area and the project
 
 .PHONY: dep
 dep: ## Install dependencies
-	@go get golang.org/x/tools/cmd/cover
-	@go get github.com/mattn/goveralls
+	@go get -d golang.org/x/tools/cmd/cover
+	@go install github.com/mattn/goveralls@latest
 	@go mod tidy
 	@go get -v -t ./...
 
