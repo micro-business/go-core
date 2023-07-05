@@ -10,6 +10,6 @@ require (
 	github.com/onsi/gomega v1.16.0
 	github.com/valyala/fasthttp v1.30.0
 	go.uber.org/zap v1.19.1
-	google.golang.org/grpc v1.41.0
+	google.golang.org/grpc v1.53.0
 	gopkg.in/yaml.v2 v2.4.0
 )
